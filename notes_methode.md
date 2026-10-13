@@ -112,7 +112,33 @@ Saison de référence : 2015/16 (season_id = 27), 38 matchs du FC Barcelone.
 - α = 20 est un choix ; à tester avec α = 5 et α = 100 (robustesse).
 - Le modèle ne sépare pas la qualité du Barça du comportement défensif des adversaires.
 
-## 6. Références
+## 6. Comparaison des époques (étape 5)
+
+- Données : 17 saisons du Barça (2004/05 à 2020/21), 520 matchs, 48 381 possessions.
+- Biais : seulement les matchs joués par Messi (7 matchs en 2004/05, 17 en 2005/06, puis 26 à 38).
+- Indicateurs par saison : taux de but = buts / possessions ; perte par action = pertes / actions ; longueur = actions / possessions.
+- **Bootstrap** : rééchantillonnage des matchs avec remise (1 000 à 2 000 tirages, graine 0). Le match est l'unité de hasard car les possessions d'un même match ne sont pas indépendantes. Une différence est significative si l'IC à 95 % de la différence ne contient pas 0.
+- V par saison : chaîne lissée avec l'a priori Liga 2015/16 (α = 20).
+
+### Résultats
+- **Perte de balle par action** : 9–10 % sous Rijkaard → 6,5 % en 2010/11 → 6,4 % sous Koeman. Le saut a lieu en 2010/11, pas en 2008/09.
+  - Significatif : 2008/09 − 2015/16 = [+0,9 ; +2,4] pts ; 2008/09 − 2020/21 = [+1,7 ; +3,1] pts.
+- **Longueur des possessions** : 10–11 actions (Rijkaard) → 14–15 (après 2010).
+- **Taux de but** : environ 1,8 % (Rijkaard) → 2,3–2,9 % (2008–2017) → 2,0–2,4 % (2017–2021).
+  - Non significatif : 2015/16 − 2020/21 = [−0,29 ; +1,46] pts ; 2008/09 − 2020/21 = [−0,36 ; +1,32] pts.
+  - Explication : les buts sont rares (quelques dizaines par saison), donc le taux est très variable.
+- **Paradoxe Koeman** : perte de balle la plus faible et possessions les plus longues, mais taux de but parmi les plus bas → possession stérile.
+- **Valeur des zones** (surface / rond / devant le but) : 2007/08 0,8 / 1,5 / 33,3 % ; 2008/09 1,4 / 2,1 / 47,4 % ; 2015/16 1,5 / 2,4 / 41,5 % ; 2020/21 1,2 / 2,2 / 30,1 %.
+- **Conclusion** : la progression du ballon, construite sous Guardiola, survit jusqu'en 2021 ; ce qui baisse, c'est la conversion dans le dernier tiers.
+
+### Limites spécifiques
+- Biais de sélection (matchs avec Messi uniquement) ; saisons 2004/05 et 2005/06 peu fiables.
+- Niveau des adversaires non pris en compte.
+- Un seul a priori (Liga 2015/16) pour toutes les saisons.
+- V d'une seule zone est bruitée (30 à 57 % selon les saisons) ; à regrouper par surface pour plus de robustesse.
+- Comparaisons multiples : s'en tenir aux comparaisons annoncées à l'avance.
+
+## 7. Références
 
 - Rudd (2011) : premières chaînes de Markov sur les possessions au football.
 - Singh (2019) : Expected Threat (xT), grille 16 × 12.
