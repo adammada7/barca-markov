@@ -92,7 +92,27 @@ Saison de référence : 2015/16 (season_id = 27), 38 matchs du FC Barcelone.
 - Les zones rarement visitées ont des probabilités estimées sur peu de données (bruit). Piste : a priori bayésien à partir de toute la Liga (étape 4).
 - Corrélation n'est pas causalité : une possession longue a mécaniquement plus de temps pour finir en but.
 
-## 5. Références
+## 5. Comparaison avec la Liga (étape 4)
+
+- Données : les 380 matchs de Liga 2015/16 (565 647 actions, 66 585 possessions, 901 buts).
+- Même construction que pour le Barça, appliquée à chaque équipe pendant ses propres possessions (`team == possession_team`).
+- **Lissage (a priori de Dirichlet, comme Van Roy et al.)** : P_lissée[i, j] = (C_Barça[i, j] + α × P_Liga[i, j]) / (total_Barça[i] + α), avec α = 20.
+- Validation : V moyenne au départ des possessions de Liga = 1,35 % = taux observé.
+
+### Résultats
+- Taux de but par possession : Barça 2,8 %, Real Madrid 2,7 %, moyenne Liga 1,35 %.
+- Longueur moyenne des possessions : Barça 13,5 actions (la plus longue de Liga), moyenne 8,5.
+- Effet du lissage : surtout devant le but (48,1 % → 41,5 %) ; ailleurs, quasi nul.
+- Valeurs (Liga / Barça lissé) : propre surface 0,6 % / 1,5 % ; rond central 1,1 % / 2,4 % ; penalty 15,5 % / 22,1 % ; devant le but 32,2 % / 41,5 %.
+- **Résultat principal** : le ratio Barça ÷ Liga va de 2,5–3× dans le camp du Barça à 1,3× devant le but adverse. L'avantage du Barça vient de la progression du ballon, pas de la finition.
+- Explication : probabilité de perdre le ballon par action, 7,6 % (Barça) contre 11,6 % (Liga). Sur environ 10 actions, ça donne environ 45 % contre 29 % de chances de ne jamais perdre le ballon.
+
+### Limites spécifiques
+- L'a priori Liga inclut le Barça (biais faible ; on pourrait l'exclure).
+- α = 20 est un choix ; à tester avec α = 5 et α = 100 (robustesse).
+- Le modèle ne sépare pas la qualité du Barça du comportement défensif des adversaires.
+
+## 6. Références
 
 - Rudd (2011) : premières chaînes de Markov sur les possessions au football.
 - Singh (2019) : Expected Threat (xT), grille 16 × 12.
