@@ -138,7 +138,33 @@ Saison de référence : 2015/16 (season_id = 27), 38 matchs du FC Barcelone.
 - V d'une seule zone est bruitée (30 à 57 % selon les saisons) ; à regrouper par surface pour plus de robustesse.
 - Comparaisons multiples : s'en tenir aux comparaisons annoncées à l'avance.
 
-## 7. Références
+## 7. Processus de décision markovien (étape 6)
+
+- **États** : 192 zones + but + perte. **Actions** : conduite, passe courte (< 25 yards), passe longue (≥ 25 yards), tir.
+- **Transitions** P(s' | s, a) : estimées en comptant, lissées avec un a priori = le Barça sur les 17 saisons (α = 20).
+- **Politique observée** π(a | s) : part de chaque action dans chaque zone.
+- **Actions disponibles** : au moins 10 observations dans la zone sur la saison (protection contre la malédiction de l'optimiseur).
+- **V_π** : chaîne P_π(s' | s) = Σ_a π(a | s) P(s' | s, a), résolue comme à l'étape 3.
+- **V\*** : équation de Bellman V\*(s) = max_a Σ_s' P(s' | s, a) V\*(s'), résolue par itération de valeur.
+- **Q(s, a)** = Σ_s' P(s' | s, a) V(s').
+- **Contrefactuel** : multiplier π(tir | s) dans les 12 zones de la surface (x ≥ 105, 20 ≤ y ≤ 60), renormaliser les autres actions, recalculer V_π. Incertitude par bootstrap des matchs (200 tirages).
+
+### Résultats
+- Validation : V_π reproduit le taux réel (2,66 / 2,74 / 2,31 % contre 2,73 / 2,80 / 2,24 % pour 2008/09, 2015/16, 2020/21).
+- Écart moyen entre la meilleure et la pire action : 0,11 pt (tiers défensif), 0,21 pt (milieu), 2,35 pts (tiers offensif). Les décisions comptent environ 20 fois plus dans le dernier tiers.
+- V\* = 5,8 à 6,3 % : borne supérieure théorique, pas un objectif (malédiction de l'optimiseur, biais de sélection, adaptation adverse).
+- Tirer rapporte plus que continuer dans l'axe, de 25–30 yards jusqu'aux 6 m (13 zones en 2015/16, 15 en 2020/21) ; moins sur les côtés de la surface.
+- **+10 % de tirs dans la surface : +4,5 % de buts en 2015/16 (IC 95 % [+3,7 ; +4,9]), +4,3 % en 2020/21 ([+2,7 ; +4,9]).** +25 % de tirs : +9,9 % et +8,4 %. Cohérent avec Van Roy et al. (*Leaving Goals on the Pitch*).
+- Koeman : le gain à tirer plus est le même qu'en 2015/16, donc les décisions ne sont pas la cause du déclin. Q(tir) plus bas partout : entrée de surface 14,6 → 8,9 % ; penalty 29,6 → 22,3 % ; devant le but 51,9 → 40,1 %.
+- **Conclusion (étapes 5 et 6)** : le déclin après 2017 ne vient ni de la construction ni des décisions, mais de la qualité des tirs et de la finition.
+
+### Limites spécifiques
+- Le bootstrap mesure l'incertitude d'estimation, pas l'erreur due aux hypothèses ; le gain contrefactuel est plutôt un maximum.
+- État = position du ballon seulement (pas de défenseurs). Extensions : `under_pressure`, données 360.
+- Conduites surreprésentées (contrôles enregistrés comme conduites).
+- Seuils (25 yards, 10 observations) à tester pour la robustesse.
+
+## 8. Références
 
 - Rudd (2011) : premières chaînes de Markov sur les possessions au football.
 - Singh (2019) : Expected Threat (xT), grille 16 × 12.
